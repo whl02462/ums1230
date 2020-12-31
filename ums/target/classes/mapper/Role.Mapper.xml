@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ekgc.ums.dao.RoleDao">
+	<select id="findListByQuery" parameterType="Role" resultMap="resultMap">
+		select
+		su.id,
+		su.name,
+		su.status,
+		su.createTime,
+		su.updateTime
+		from
+		sys_role
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null">id=#{id} and </if>
+				<if test="name != null">name like contact('%', #{name}, '%') and </if>
+				<if test="status != null">status=#{status} and </if>
+			</trim>
+		</where>
+		order by createTime asc
+		<if test="begin != null and size != null">
+			limit #{begin}, #{size}
+		</if>
+	</select>
+
+	<insert id="save" parameterType="Role">
+		insert into sys_role(
+		<trim suffixOverrides=",">
+			<if test="id != null">id, </if>
+			<if test="name != null">name, </if>
+			<if test="status != null">status, </if>
+			<if test="createTime != null">createTime, </if>
+			<if test="updateTime != null">updateTime, </if>
+		</trim>
+		) values(
+		<trim suffixOverrides=",">
+			<if test="id != null">#{id}, </if>
+			<if test="name != null">#{name}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="createTime != null">#{createTime}, </if>
+			<if test="updateTime != null">#{updateTime}, </if>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="Role">
+		update sys_role
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">name=#{name}, </if>
+				<if test="status != null">status=#{status}, </if>
+				<if test="createTime != null">createTime=#{createTime}, </if>
+				<if test="updateTime != null">updateTime=#{updateTime}, </if>
+			</trim>
+		</set>
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null">id=#{id} and </if>
+			</trim>
+		</where>
+	</update>
+
+
+
+	<resultMap id="resultMap" type="Role">
+		<id property="id" javaType="java.lang.Long" column="id"/>
+		<result property="name" javaType="java.lang.String" column="name"/>
+		<result property="status" javaType="java.lang.Integer" column="status"/>
+		<result property="createTime" javaType="java.util.Date" column="createTime"/>
+		<result property="updateTime" javaType="java.util.Date" column="updateTime"/>
+	</resultMap>
+
+</mapper>

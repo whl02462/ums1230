@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ekgc.ums.dao.UserDao">
+	<select id="findListByQuery" parameterType="User" resultMap="resultMap">
+		select
+			su.id,
+			su.name,
+			su.cellphone,
+			su.password,
+			su.roleId,
+			sr.name roleName,
+			su.status,
+			su.createTime,
+			su.updateTime
+			from
+			sys_user su join sys_role sr on su.roleId=sr.id
+			<where>
+				<trim suffixOverrides="and">
+					<if test="id != null">su.id=#{id} and </if>
+					<if test="name != null">su.name like contact('%', #{name}, '%') and </if>
+					<if test="cellphone != null">su.cellphone=#{cellphone} and </if>
+					<if test="status != null">su.status=#{status} and </if>
+				</trim>
+			</where>
+			order by su.createTime asc
+			<if test="begin != null and size != null">
+				limit #{begin}, #{size}
+			</if>
+	</select>
+
+	<insert id="save" parameterType="User">
+		insert into sys_user(
+			<trim suffixOverrides=",">
+				<if test="id != null">id, </if>
+				<if test="name != null">name, </if>
+				<if test="cellphone != null">cellphone, </if>
+				<if test="password != null">password, </if>
+				<if test="role != null and role.id != null">roleId, </if>
+				<if test="status != null">status, </if>
+				<if test="createTime != null">createTime, </if>
+				<if test="updateTime != null">updateTime, </if>
+			</trim>
+		) values(
+			<trim suffixOverrides=",">
+				<if test="id != null">#{id}, </if>
+				<if test="name != null">#{name}, </if>
+				<if test="cellphone != null">#{cellphone}, </if>
+				<if test="password != null">#{password}, </if>
+				<if test="role != null and role.id != null">#{role.id}, </if>
+				<if test="status != null">#{status}, </if>
+				<if test="createTime != null">#{createTime}, </if>
+				<if test="updateTime != null">#{updateTime}, </if>
+			</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="User">
+		update sys_user
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">name=#{name}, </if>
+				<if test="cellphone != null">cellphone=#{cellphone}, </if>
+				<if test="password != null">password=#{password}, </if>
+				<if test="role != null and role.id != null">roleId=#{role.id}, </if>
+				<if test="status != null">status=#{status}, </if>
+				<if test="createTime != null">createTime=#{createTime}, </if>
+				<if test="updateTime != null">updateTime=#{updateTime}, </if>
+			</trim>
+		</set>
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null">id=#{id} and </if>
+			</trim>
+		</where>
+	</update>
+
+
+
+	<resultMap id="resultMap" type="User">
+		<id property="id" javaType="java.lang.Long" column="id"/>
+		<result property="name" javaType="java.lang.String" column="name"/>
+		<result property="cellphone" javaType="java.lang.String" column="cellphone"/>
+		<result property="password" javaType="java.lang.String" column="password"/>
+		<result property="status" javaType="java.lang.Integer" column="status"/>
+		<result property="createTime" javaType="java.util.Date" column="createTime"/>
+		<result property="updateTime" javaType="java.util.Date" column="updateTime"/>
+		<association property="role" javaType="Role">
+			<id property="id" javaType="java.lang.Long" column="roleId"/>
+			<result property="name" javaType="java.lang.String" column="roleName"/>
+		</association>
+	</resultMap>
+
+</mapper>
