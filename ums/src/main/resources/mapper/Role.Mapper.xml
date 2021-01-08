@@ -4,11 +4,11 @@
 <mapper namespace="cn.ekgc.ums.dao.RoleDao">
 	<select id="findListByQuery" parameterType="Role" resultMap="resultMap">
 		select
-		su.id,
-		su.name,
-		su.status,
-		su.createTime,
-		su.updateTime
+		id,
+		name,
+		status,
+		createTime,
+		updateTime
 		from
 		sys_role
 		<where>

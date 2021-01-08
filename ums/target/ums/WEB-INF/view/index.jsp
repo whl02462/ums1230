@@ -8,6 +8,12 @@
 	<link rel="stylesheet" type="text/css" href="static/css/AdminLTE.min.css">
 	<script type="application/javascript" src="static/js/jquery-3.5.1.min.js"></script>
 	<script type="application/javascript" src="static/js/bootstrap.min.js"></script>
+	<script type="application/javascript">
+		function openFrame(url) {
+			var iframe = "<iframe src='" + url + "' style='width: 100%;height: 100%;border: 0px;'></iframe>";
+			$("#myFrame").html(iframe);
+		}
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -22,7 +28,7 @@
 							<!--向左对齐-->
 							<ul class="nav navbar-nav navbar-left">
 								<li>
-									<a href="user/index">
+									<a href="javascript:openFrame('user/index')">
 									<i class="fa fa-users"></i>&nbsp;
 									用户信息
 									</a>
@@ -58,6 +64,11 @@
 				</nav>
 			</div>
 
+		</div>
+		<div class="row">
+			<div class="col-md-12" id="myFrame">
+
+			</div>
 		</div>
 	</div>
 

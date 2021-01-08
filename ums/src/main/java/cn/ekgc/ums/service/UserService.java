@@ -8,4 +8,6 @@ public interface UserService {
 	User getUserByCellphone(String cellphone) throws Exception;
 	//分页查询列表
 	PageVO<User> getListByQueryAndPage(User query, PageVO<User> pageVO) throws Exception;
+	//保存
+	boolean saveUser(User user) throws Exception;
 }

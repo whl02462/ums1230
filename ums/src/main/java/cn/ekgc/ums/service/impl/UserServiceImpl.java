@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
+
 	@Override
 	public User getUserByCellphone(String cellphone) throws Exception {
 		//封装查询对象
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+
 
 	@Override
 	public PageVO<User> getListByQueryAndPage(User query, PageVO<User> pageVO) throws Exception {
@@ -49,5 +51,15 @@ public class UserServiceImpl implements UserService {
 		pageVO.setTotalCount(totalCount);
 		pageVO.setTotalPage(totalPage);
 		return pageVO;
+	}
+
+
+	@Override
+	public boolean saveUser(User user) throws Exception {
+		Integer count = userDao.save(user);
+		if (count != null && count > 0 ){
+			return true;
+		}
+		return false;
 	}
 }
